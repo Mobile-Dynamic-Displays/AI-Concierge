@@ -84,12 +84,14 @@ const Form = () => {
       setLoadingOptions(true);
       const prompt = await organizeQuery(selectedActivityIds);
       const response = await axios.post('https://ai-concierge-main-0b4b3d25a902.herokuapp.com/api/OPAICreateConvo/', { query: prompt });
+      // console.log(response);
       const businessesFromResponse = response.data['response-payload'].split(': ')[1].trim();
 
       const multiBusinessResponse = businessesFromResponse.split(', ');
+      
       const businessDataResponse = await axios.post('https://ai-concierge-main-0b4b3d25a902.herokuapp.com/api/queryBusinessData/', { business: multiBusinessResponse });
 
-      // //console.log(businessDataResponse.data);
+      
 
       //Filter out empty collections
       const filteredBusinessData = businessDataResponse.data.filter(business => Object.keys(business).length !== 0);
@@ -108,7 +110,7 @@ const Form = () => {
       setLoading(false);
       setSuggestedDisplayed(true);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
       setFailed(true);
       setLoading(false);
       setDisplayOptions(true);
